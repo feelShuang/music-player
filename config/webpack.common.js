@@ -17,26 +17,20 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
-      // {
-      //   test: /\.css$/,
-      //   use: ExtractTextPlugin.extract({
-      //     fallback: 'style-loader',
-      //     use: 'css-loader'
-      //   })
-      // },
       {
         test: /\.(less|css)$/,
         use: [
           {
-              loader: "style-loader"
-          }, {
-              loader: "css-loader"
-          }, {
-              loader: "less-loader", options: {
-                  paths: [
-                      path.resolve(__dirname, "node_modules")
-                  ]
-              }
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              paths: [path.resolve(__dirname, 'node_modules')]
+            }
           }
         ]
       },
@@ -54,7 +48,7 @@ module.exports = {
       filename: 'index.html'
     }),
     new ExtractTextPlugin('styles.css'),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin()
     // new webpack.optimize.splitChunks({
     //   name: 'common' // 防止重复 指定公共 bundle 的名称
     // })
