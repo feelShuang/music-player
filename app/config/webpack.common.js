@@ -5,7 +5,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  entry: './app/index.js',
+  context: path.join(__dirname),
+  entry: '../src/js/index.js',
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, '../dist')
@@ -16,7 +17,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query: {
+        options: {
           presets: ['react', 'es2015']
         }
       },
@@ -32,7 +33,7 @@ module.exports = {
           {
             loader: 'less-loader',
             options: {
-              paths: [path.resolve(__dirname, 'node_modules')]
+              paths: [/node_modules/]
             }
           }
         ]
@@ -45,11 +46,11 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
-    new HtmlWebpackPlugin({
-      title: 'test',
-      template: './index.html',
-      filename: 'index.html'
-    }),
+    // new HtmlWebpackPlugin({
+    //   title: 'test',
+    //   template: './index.html',
+    //   filename: 'index.html'
+    // }),
     new ExtractTextPlugin('styles.css'),
     new webpack.HotModuleReplacementPlugin()
     // new webpack.optimize.splitChunks({

@@ -1,8 +1,8 @@
 import React from 'react'
-import { render } from 'react-dom'
+import ReactDOM from 'react-dom'
 import Root from './root'
 
-render(
-  <Root></Root>,
+ReactDom.render(
+  <h1>React</h1>,
   document.getElementById('root')
 )
