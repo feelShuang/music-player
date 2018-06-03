@@ -6,7 +6,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   context: path.join(__dirname),
-  entry: '../src/js/index.js',
+  entry: {
+    app: '../src/js/index.js'
+  },
   output: {
     filename: '[name].[hash].bundle.js',
     path: path.resolve(__dirname, '../dist')
@@ -16,10 +18,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['react', 'es2015']
-        }
+        loader: 'babel-loader'
       },
       {
         test: /\.(less|css)$/,
@@ -41,12 +40,11 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: ['file-loader']
-      },
-      {
-        test: require.resolve('jquery'),
-        loader: 'expose-loader?$!expose-loader?jQuery'
       }
     ]
+  },
+  externals: {
+    jquery: 'window.$'
   },
   plugins: [
     new CleanWebpackPlugin(['dist'], {
@@ -59,12 +57,12 @@ module.exports = {
     }),
     new ExtractTextPlugin('styles.css'),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.$': 'jquery',
-      'window.jQuery': 'jquery'
-    })
+    // new webpack.ProvidePlugin({
+    //   $: 'jquery',
+    //   jQuery: 'jquery',
+    //   'window.$': 'jquery',
+    //   'window.jQuery': 'jquery'
+    // })
     // new webpack.optimize.splitChunks({
     //   name: 'common' // 防止重复 指定公共 bundle 的名称
     // })

@@ -80,7 +80,7 @@ body {
 {
     display: block!important;
     -webkit-box-flex: 1;
-    -webkit-flex: 1;
+    -webkit-flex: none;
 }
 .row>.-col-auto
 {
