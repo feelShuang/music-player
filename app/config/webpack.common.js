@@ -8,7 +8,7 @@ module.exports = {
   context: path.join(__dirname),
   entry: '../src/js/index.js',
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[hash].bundle.js',
     path: path.resolve(__dirname, '../dist')
   },
   module: {
@@ -41,18 +41,30 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: ['file-loader']
+      },
+      {
+        test: require.resolve('jquery'),
+        loader: 'expose-loader?$!expose-loader?jQuery'
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
-    // new HtmlWebpackPlugin({
-    //   title: 'test',
-    //   template: './index.html',
-    //   filename: 'index.html'
-    // }),
+    new CleanWebpackPlugin(['dist'], {
+      root: path.resolve(__dirname, '../')
+    }),
+    new HtmlWebpackPlugin({
+      title: 'React Production',
+      filename: 'index.html',
+      template: '../../index.html'
+    }),
     new ExtractTextPlugin('styles.css'),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.$': 'jquery',
+      'window.jQuery': 'jquery'
+    })
     // new webpack.optimize.splitChunks({
     //   name: 'common' // 防止重复 指定公共 bundle 的名称
     // })

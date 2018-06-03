@@ -1,2 +1,5 @@
 # ignore node_modules files
 /node_modules
+
+# ignore MacOS files
+.DS_Store

@@ -1,12 +1,18 @@
 import React from 'react'
 import Header from './components/header/header'
 
-let Root = React.createClass({
+export default class Component extends React.Component {
   render() {
     return (
-      <Header/>
+      
+      <div id="J_root">
+        <Header />
+      </div>
     )
   }
-})
+}
+// let Root = React.createClass({
+  
+// })
 
-export default Root
+// export default Root

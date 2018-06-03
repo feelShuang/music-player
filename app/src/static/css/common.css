@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+body {
+    font-family: 'PingFang SC', Arial, Verdana, Sans-serif;
+}
 .container {
 }
 .styleguide,.styleguide *
