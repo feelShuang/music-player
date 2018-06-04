@@ -30,7 +30,7 @@ export default class Component extends React.Component {
   componentWillUnmount() {
     $('#player').unbing($.jPlayer.event.timeupdate)
   }
-  progressChangeHandler(progress) {
+  progressChangeHandler = (progress) => {
     console.log('from root' + progress)
     // 更新jPlayer
     $('#player ').jPlayer('play', duration * progress);
