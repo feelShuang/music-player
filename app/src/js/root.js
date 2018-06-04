@@ -1,13 +1,13 @@
 import React from 'react'
 import Header from './components/header/header'
-import Progress from './components/progress/progress'
+import Player from './page/player/player'
+import { MUSIC_LIST } from '../../resources/musiclist'
 
-let duration = null
 export default class Component extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      progress: '-'
+      currentMusicItem: MUSIC_LIST[0]
     }
   }
   componentDidMount() {
@@ -20,26 +20,12 @@ export default class Component extends React.Component {
       supplied: 'mp3',
       wmode: 'window'
     })
-    $('#player').bind($.jPlayer.event.timeupdate, (e) => {
-      duration = e.jPlayer.status.duration
-      this.setState({
-        progress: Math.round(e.jPlayer.status.currentTime)
-      })
-    })
-  }
-  componentWillUnmount() {
-    $('#player').unbing($.jPlayer.event.timeupdate)
-  }
-  progressChangeHandler = (progress) => {
-    console.log('from root' + progress)
-    // 更新jPlayer
-    $('#player ').jPlayer('play', duration * progress);
   }
   render() {
     return (
       <div id="J_root">
         <Header />
-        <Progress progress={this.state.progress} onProgressChange={this.progressChangeHandler}/>
+        <Player currentMusicItem={this.state.currentMusicItem} />
       </div>
     )
   }
