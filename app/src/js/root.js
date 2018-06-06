@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from './components/header/header'
 import Player from './page/player/player'
+import MusicList from './page/musiclist/musiclist'
 import { MUSIC_LIST } from '../../resources/musiclist'
 
 export default class Component extends React.Component {
@@ -25,7 +26,8 @@ export default class Component extends React.Component {
     return (
       <div id="J_root">
         <Header />
-        <Player currentMusicItem={this.state.currentMusicItem} />
+        {/* <Player currentMusicItem={this.state.currentMusicItem} /> */}
+        <MusicList currentMusicItem={this.state.currentMusicItem} musicList={MUSIC_LIST}/>
       </div>
     )
   }
