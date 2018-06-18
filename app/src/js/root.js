@@ -12,7 +12,7 @@ export default class Root extends React.Component {
         <Switch>
           <Route path="/" component={App}>
             {/* <IndexRoute component={Player}></IndexRoute> */}
-            <Route path={`${props.match.path}/list`} component={MusicList}></Route>
+            {/* <Route path={`${props.match.path}/list`} component={MusicList}></Route> */}
           </Route>
         </Switch>
       </Router>
@@ -28,10 +28,11 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
+    let _this = this
     $('#player').jPlayer({
       ready: function() {
         $(this).jPlayer('setMedia', {
-          mp3: this.state.currentMusicItem.file
+          mp3: _this.state.currentMusicItem.file
         }).jPlayer('play')
       },
       supplied: 'mp3',
@@ -42,7 +43,14 @@ class App extends React.Component {
     return (
       <div id="J_root">
         <Header />
-        {/* { React.cloneElement(this.props.children, this.state) } */}
+        <Switch>
+          <Route exact path={`${this.props.match.url}`} render={(props) => (
+            <Player currentMusicItem={this.state.currentMusicItem} />
+          )}></Route>
+          <Route exact path={`${this.props.match.url}list`} render={(props) => (
+            <MusicList {...props} currentMusicItem={this.state.currentMusicItem} musicList={MUSIC_LIST}/>
+          )}></Route>
+        </Switch>
         {/* <Player currentMusicItem={this.state.currentMusicItem} /> */}
         {/* <MusicList currentMusicItem={this.state.currentMusicItem} musicList={MUSIC_LIST}/> */}
       </div>

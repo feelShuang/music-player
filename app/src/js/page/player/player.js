@@ -22,7 +22,7 @@ export default class Component extends React.Component {
     });
   }
   componentWillUnmount() {
-    $('#player').unbing($.jPlayer.event.timeupdate);
+    $("#player").unbind($.jPlayer.event.timeupdate);
   }
   progressChangeHandler = progress => {
     console.log(duration, progress);
