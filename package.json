@@ -44,6 +44,7 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
+    "pubsub-js": "^1.6.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-router": "^4.2.0",
