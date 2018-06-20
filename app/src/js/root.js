@@ -23,10 +23,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       musicList: MUSIC_LIST,
-      currentMusicItem: MUSIC_LIST[0]
+      currentMusicItem: MUSIC_LIST[0],
+      repeatType: 'cycle'
     };
   }
-  playMusic(musicItem) {
+  playMusic = (musicItem) => {
     $('#player')
       .jPlayer('setMedia', {
         mp3: musicItem.file
@@ -36,7 +37,7 @@ class App extends React.Component {
       currentMusicItem: musicItem
     });
   }
-  playNext(type = 'next') {
+  playNext = (type = 'next') => {
     let index = this.findMusicIndex(this.state.currentMusicItem);
     let newIndex = null;
     let musicListLength = this.state.musicList.length
@@ -47,7 +48,7 @@ class App extends React.Component {
     }
     this.playMusic(this.state.musicList[newIndex]);
   }
-  findMusicIndex(musicItem) {
+  findMusicIndex = (musicItem) => {
     return this.state.musicList.indexOf(musicItem);
   }
   componentDidMount() {
@@ -59,7 +60,18 @@ class App extends React.Component {
     this.playMusic(this.state.currentMusicItem);
 
     $('#player').bind($.jPlayer.event.ended, (ev) => {
-      this.playNext();
+      if (this.state.repeatType === 'cycle') {
+        this.playNext();
+      } else if (this.state.repeatType === 'once') {
+        this.playMusic(this.state.currentMusicItem);
+      } else {
+        let index = this.findMusicIndex(this.state.currentMusicItem);
+        let randomIndex = Math.floor(Math.random() * repeatList.length);
+        while (randomIndex === index) {
+          randomIndex = Math.floor(Math.random() * repeatList.length);
+        }
+        this.playMusic(this.state.musicList[randomIndex]);
+      }
     })
 
     Pubsub.subscribe('DELETE_MUSIC', (msg, musicItem) => {
@@ -77,8 +89,18 @@ class App extends React.Component {
     PubSub.subscribe('PLAY_PREV', (msg, musicItem) => {
       this.playNext('prev');
     });
+
     Pubsub.subscribe('PLAY_NEXT', (msg, musicItem) => {
       this.playNext();
+    });
+
+    let repeatList = ['cycle', 'once', 'random']
+    Pubsub.subscribe('CHANGE_REPEAT', () => {
+      let index = repeatList.indexOf(this.state.repeatType);
+      index = (index + 1) % repeatList.length;
+      this.setState({
+        repeatType: repeatList[index]
+      })
     });
   }
   componentWillMount() {
@@ -86,6 +108,7 @@ class App extends React.Component {
     Pubsub.unsubscribe('PLAY_MUSIC');
     Pubsub.unsubscribe('PLAY_PREV');
     Pubsub.unsubscribe('PLAY_NEXT');
+    PubSub.unsubscribe('CHANGE_REPEAT')
     $('#player').unbind($.jPlayer.event.ended);
   }
   render() {
@@ -93,7 +116,7 @@ class App extends React.Component {
       <div id="J_root">
         <Header />
         <Switch>
-          <Route exact path={`${this.props.match.url}`} render={props => <Player currentMusicItem={this.state.currentMusicItem} />} />
+          <Route exact path={`${this.props.match.url}`} render={props => <Player currentMusicItem={this.state.currentMusicItem} repeatType={this.state.repeatType} />} />
           <Route
             exact
             path={`${this.props.match.url}list`}

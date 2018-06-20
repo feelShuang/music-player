@@ -24,7 +24,7 @@ export default class Component extends React.Component {
       });
     });
   }
-  formatTime(time) {
+  formatTime = (time) => {
     time = Math.floor(time);
     let miniutes = Math.floor(time / 60);
     let seconds = Math.floor(time % 60);
@@ -58,6 +58,9 @@ export default class Component extends React.Component {
   }
   playNext = () => {
     PubSub.publish('PLAY_NEXT');
+  }
+  changeRepeat = () => {
+    PubSub.publish('CHANGE_REPEAT');
   }
   render() {
     return (
