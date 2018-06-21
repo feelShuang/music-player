@@ -6,18 +6,6 @@ import { MUSIC_LIST } from '../../resources/musiclist';
 import { HashRouter as Router, Switch, IndexRoute, Link, Route, hashHistory } from 'react-router-dom';
 import Pubsub from 'pubsub-js';
 
-export default class Root extends React.Component {
-  render() {
-    return (
-      <Router>
-        <Switch>
-          <Route path="/" component={App}></Route>
-        </Switch>
-      </Router>
-    );
-  }
-}
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -123,9 +111,19 @@ class App extends React.Component {
             render={props => <MusicList {...props} currentMusicItem={this.state.currentMusicItem} musicList={MUSIC_LIST} />}
           />
         </Switch>
-        {/* <Player currentMusicItem={this.state.currentMusicItem} /> */}
-        {/* <MusicList currentMusicItem={this.state.currentMusicItem} musicList={MUSIC_LIST}/> */}
       </div>
+    );
+  }
+}
+
+export default class Root extends React.Component {
+  render() {
+    return (
+      <Router>
+        <Switch>
+          <Route path="/" component={App}></Route>
+        </Switch>
+      </Router>
     );
   }
 }
